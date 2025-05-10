@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do List</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-6 text-gray-800">📝 My Notion-Style Tasks</h1>
+
+    <!-- Add Task Form -->
+    <form action="/add" method="POST" class="flex flex-col sm:flex-row gap-2 mb-6">
+      <input name="title" placeholder="Enter new task..." class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2" required>
+      <input name="category" placeholder="Category (optional)" class="px-4 py-2 border rounded-lg focus:outline-none">
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Add</button>
+    </form>
+
+    <!-- Filter Categories -->
+    {% if categories %}
+    <div class="mb-4">
+      <span class="font-semibold">Filter by Category:</span>
+      <a href="/" class="text-blue-600 underline ml-2">All</a>
+      {% for cat in categories %}
+        <a href="/?category={{ cat }}" class="text-blue-600 underline ml-2">{{ cat }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Task List -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+      {% for task in tasks %}
+        <div class="flex justify-between items-center px-4 py-3 border-b hover:bg-gray-50 transition">
+          <div class="flex-1">
+            <form action="/toggle/{{ task.id }}" method="GET" class="inline">
+              <button class="{% if task.done %}line-through text-gray-500{% endif %} text-left text-lg focus:outline-none">
+                {{ task.title }}
+              </button>
+            </form>
+            {% if task.category %}
+              <span class="ml-2 text-sm text-purple-600 bg-purple-100 px-2 py-0.5 rounded">{{ task.category }}</span>
+            {% endif %}
+          </div>
+          <a href="/delete/{{ task.id }}" class="text-red-500 hover:text-red-700">🗑️</a>
+        </div>
+      {% else %}
+        <div class="p-4 text-gray-500">No tasks yet. Add one above!</div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
