@@ -1,3 +1,29 @@
-body {
-  transition: background-color 0.3s ease;
+/* Pastel mode colors */
+body.pastel-mode {
+  background-color: #fff1f3;
+  color: #4a4a4a;
+}
+
+.pastel-mode .bg-purple-400 {
+  background-color: #cdb4db !important;
+}
+
+.pastel-mode .bg-purple-100 {
+  background-color: #f3e8ff !important;
+}
+
+.pastel-mode .bg-green-300 {
+  background-color: #b5ead7 !important;
+}
+
+.pastel-mode .text-green-900 {
+  color: #317873 !important;
+}
+
+.pastel-mode .bg-yellow-100 {
+  background-color: #fff5ba !important;
+}
+
+.pastel-mode .text-yellow-800 {
+  color: #b58900 !important;
 }

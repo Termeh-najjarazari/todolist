@@ -22,8 +22,18 @@ def index():
         tasks = Task.query.filter_by(category=category).order_by(Task.created_at.desc()).all()
     else:
         tasks = Task.query.order_by(Task.created_at.desc()).all()
+
+    total_tasks = len(tasks)
+    done_tasks = len([t for t in tasks if t.done])
+    progress = int((done_tasks / total_tasks) * 100) if total_tasks > 0 else 0
+
     categories = db.session.query(Task.category).distinct().all()
-    return render_template('index.html', tasks=tasks, categories=[c[0] for c in categories if c[0]])
+    return render_template(
+        'index.html',
+        tasks=tasks,
+        categories=[c[0] for c in categories if c[0]],
+        progress=progress
+    )
 
 
 @app.route('/add', methods=['POST'])
@@ -62,6 +72,3 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True, host='0.0.0.0')
-# Trigger GitHub Action
-# Trigger GitHub Action
-# Auto-pushed at 2025-05-11 00:52:56
